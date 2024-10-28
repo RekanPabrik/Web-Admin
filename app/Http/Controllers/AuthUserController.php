@@ -3,99 +3,110 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\UsersResource;
-use App\Models\Admin;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 class AuthUserController extends Controller
 {
 
-    public function Login(Request $request)
+    // Menampilkan form login
+    public function showLoginForm()
+    {
+        return view('auth/login'); // Arahkan ke Blade view login
+    }
+
+    // Memproses login dan mengonsumsi API
+    public function login(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        $user = Admin::where('email', $request->email)->first();
-        
-        if (! $user) {
-            throw ValidationException::withMessages([
-                ['anda belum membuat akun.'],
+        $client = new Client();
+
+        try {
+
+            // Kirim request POST ke API
+            $response = $client->post('http://localhost:4000/auth/login', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => [
+                    'email' => $request->input('email'),
+                    'password' => $request->input('password'),
+                ],
             ]);
-        }
 
-        if (Hash::check($request->password, $user->password) ) {
+            // Ambil response dan ubah ke array
+            $body = json_decode($response->getBody(), true);
+            $token = $body['token'];
 
-            if ($user->role === 'admin') {
-                return redirect()->route('adminPage');
+            session(['token' => $token]);
+
+            $userResponse = $client->get('http://localhost:4000/auth/me', [
+                'headers' => [
+                    'Authorization' => "Bearer {$token}",
+                ],
+            ]);
+
+            $userData = json_decode($userResponse->getBody(), true);
+
+            if (isset($userData['data'][0][0]['role'])) {
+                $role = $userData['data'][0][0]['role'];
+
+                if ($role === 'admin') {
+                    return redirect()->route('admin.dashboard');
+                } elseif ($role === 'pelamar') {
+                    return redirect()->route('pelamar.dashboard');
+                }
             }
-                
-        } else {
-            throw ValidationException::withMessages([
-                ['Email atau password salah.'],
-            ]);
+            return redirect()->route('login.form')->withErrors(['login' => 'Invalid user role.']);
+
+        } catch (\Exception $e) {
+            if ($e->getCode() == 400) {
+                return back()->withErrors(['login' => 'Username or password is incorrect.'])->withInput();
+            } else {
+                return back()->withErrors(['login' => 'Login failed: ' . $e->getMessage()])->withInput();
+            }
         }
     }
 
-    // public function Register(Request $request)
-    // {
-    //     $request->validate([
-    //         'email' => 'required|string|email|max:100|unique:users',
-    //         'password' => 'required|string|max:100',
-    //         'nama_depan' => 'required|string|max:50',
-    //         'nama_belakang' => 'required|string|max:20',
-    //         'usia' => 'required|integer',
-    //         'kelamin' => 'required|in:Laki-Laki,Perempuan',
-    //         'tanggal_lahir' => 'required|date',
-    //         'role' => 'required|in:Pelamar,HRD,Admin'
-    //     ]);
-
-    //     $chekedUser = User::where('email', $request->email)->first();
-    //     if ($chekedUser) {
-    //         return response()->json(['message' => 'Email sudah terdaftar']);
-    //     }
-        
-    //     $newUser = new User();
-    //     $newUser->email = $request->email;
-    //     $newUser->password = Hash::make($request->Password);
-    //     $newUser->nama_depan = $request->nama_depan;
-    //     $newUser->nama_belakang = $request->nama_belakang;
-    //     $newUser->usia = $request->usia;
-    //     $newUser->kelamin = $request->kelamin;
-    //     $newUser->tanggal_lahir = $request->tanggal_lahir;
-    //     $newUser->role = $request->role;
-
-    //     $newUser->save();
-
-    //     return response()->json(['message' => 'User created successfully', 'user' => $newUser], 200);
-    // }
-
-    // public function Logout(Request $request)
-    // {
-    //     $request->user()->currentAccessToken()->delete();
-
-    //     return response()->json(['message' => 'Successfully logged out']);
-    // }
-
-    // public function me(Request $request)
-    // {
-    //     $user = auth::user();
-
-    //     return response() -> json([
-    //         'id_Akun' => $user -> ID_AKUN,
-    //         'password' => $user -> password,
-    //         'nama_depan'=> $user -> nama_depan,
-    //         'nama_belakang'=> $user -> nama_belakang,
-    //         'usia'=> $user -> usia,
-    //         'kelamin'=> $user -> kelamin,
-    //         'tanggal_lahir' => date_format($user->tanggal_lahir, "d/m/Y"),
-    //         'role'=> $user -> role,
-    //         'foto_profile' => $user -> Foto_Profile,
-    //         'foto_beranda'=> $user -> Foto_Beranda,
-    //     ]);
-    // }
-}
+    public function home()
+    {
+        $client = new Client();
+        $token = session('token'); // Ambil token dari session
+       
+        if (!$token) {
+            return redirect()->route('login.form');
+        }
+    
+        try {
+            $userResponse = $client->get('http://localhost:4000/auth/me', [
+                'headers' => [
+                    'Authorization' => "Bearer {$token}",
+                ],
+            ]);
+    
+            $userData = json_decode($userResponse->getBody(), true);
+    
+            // Pastikan struktur data benar dan ambil user dari array dua dimensi
+            if (isset($userData['data'][0][0])) {
+                $user = $userData['data'][0][0];
+    
+                // Pilih view berdasarkan role
+                if ($user['role'] === 'admin') {
+                    return view('admin.adminPage', compact('user'));
+                } elseif ($user['role'] === 'pelamar') {
+                    return view('pelamar.pelamarPage', ['user' => $user]);
+                }
+            } else {
+                return redirect()->route('login.form')->withErrors(['login' => 'User data not found.']);
+            }
+    
+        } catch (\Throwable $e) {
+            return redirect()->route('login.form')->withErrors(['login' => 'Failed to retrieve user data: ' . $e->getMessage()]);
+        }
+    }
+}    

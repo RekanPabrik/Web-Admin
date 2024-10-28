@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AuthUserController;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,22 +12,19 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 
+Route::get('/', function () {
+    return view('auth/login');
+})->name('login.form');
+Route::post('/login', [AuthUserController::class, 'login'])->name('login.process');
 
-Route::post('/login', [AuthUserController::class, 'Login'])->name('login');
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
+Route::middleware(['checkLogin'])->group(function () {
+    Route::get('/admin/dashboard', [AuthUserController::class, 'home'], function () {
+        return view('admin/adminPage');
+    })->name('admin.dashboard');
 
-
-Route::get('/test', function () {
-    return view('adminPage');
+    Route::get('/pelamar/dashboard', [AuthUserController::class, 'home'], function () {
+        return view('pelamar/pelamarPage');
+    })->name('pelamar.dashboard');
 });
-
-Route::get('/admin/dashboard', function () {
-    if (Auth::check()) {
-        return view('adminPage');
-    }
-    return redirect()->route('login');
-})->name('adminPage')->middleware('auth');
