@@ -19,27 +19,28 @@
     <!-- navbar start -->
     <header>
         <nav class="navbar" id="navbar">
-            <a href="/src/home-before-login/home/HomeBFLogin.html">
-                <img src="/assets/logoRekanPabrik.png" alt="" class="nav-logo" />
+            <a href="/">
+                <img src="{{ asset('assets/logoRekanPabrik.png') }}" alt="" class="nav-logo" />
             </a>
-            <ul class="nav-ul">
+            <ul class="nav-ul" id="menu-list">
                 <li class="nav-li">
-                    <a href="/src/home-before-login/about/aboutUs.html" class="nav-a">about us</a>
+                    <a href="/aboutUS" class="nav-a">about us</a>
                 </li>
                 <li class="nav-li">
-                    <a href="/src/authentication/register-HRD-page/registerHRD.html" class="nav-a">for the company</a>
+                    <a href="#" class="nav-a">for the company</a>
                 </li>
                 <li class="nav-li">
-                    <a href="/src/home-before-login/contact-us/contactUs.html" class="nav-a">contact Us</a>
+                    <a href="/contactUS" class="nav-a">contact Us</a>
                 </li>
-                <a href="/src/authentication/login-page/loginPage.html" class="nav-a"><button class="lgn-btn">Log
+                <a href="/loginPage" class="nav-a"><button class="lgn-btn">Log
                         in</button></a>
             </ul>
         </nav>
+
     </header>
     <!-- navbar end -->
     <div class="container">
-        <div class="wellcomeContainer" >
+        <div class="wellcomeContainer">
             <h1 class="wellcome-txt">Wellcome</h1>
             <h2 class="login-txt">log in to your account to continue</h2>
         </div>

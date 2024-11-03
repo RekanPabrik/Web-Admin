@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\adminController;
 use App\Http\Controllers\AuthUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,12 +16,24 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::get('/', function () {
+    return view('home-before-login/HomeBFLogin');
+})->name('HomeBFLogin');
+
+Route::get('/contactUS', function () {
+    return view('home-before-login/contactUs');
+})->name('contactUs');
+
+Route::get('/aboutUS', function () {
+    return view('home-before-login/aboutUs');
+})->name('aboutUs');
+
+Route::get('/loginPage', function () {
     return view('auth/login');
 })->name('login.form');
 Route::post('/login', [AuthUserController::class, 'login'])->name('login.process');
 
 Route::middleware(['checkLogin'])->group(function () {
-    Route::get('/admin/dashboard', [AuthUserController::class, 'home'], function () {
+    Route::get('/admin/dashboard', [adminController::class, 'home'], function () {
         return view('admin/adminPage');
     })->name('admin.dashboard');
 

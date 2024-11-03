@@ -14,27 +14,19 @@
 </head>
 
 <body>
-    
+
     <!-- side bar start -->
     <div class="sidebar" id="sidebar">
         <div class="logo">
-            {{-- @if (isset($user))
-            <p>{{$user}}</p>
-                <h2>Wellcome</h2>
-                <p> {{ $user['first_name'] }} {{ $user['last_name'] }}</p>
-            @else
-                <p>User data not available.</p>
-            @endif --}}
             @if (isset($user))
                 <h2>Welcome</h2>
                 <p>{{ $user['first_name'] }} {{ $user['last_name'] }}</p>
-                <p>Your role: {{ $user['role'] }}</p>
             @else
                 <p>User data not available.</p>
             @endif
         </div>
         <ul class="nav-list">
-            <li><a href="./home.html">Dashboard</a></li>
+            <li><a href="/admin/data">Dashboard</a></li>
             <li><a href="">Users</a></li>
             <li><a href="">Settings</a></li>
             <li><a href="">Reports</a></li>
@@ -51,41 +43,42 @@
             <h2>Jumlah Pengguna Aktif</h2>
             <div class="jumlahUserContainer">
                 <div class="jumlahUser">
-                    <h3>jumlah pelamar</h3>
-                    <p>30</p>
+                    <h3>Jumlah Pelamar</h3>
+                    <p>{{ $jumlahPelamar ?? 0 }}</p>
                 </div>
                 <div class="jumlahHRD">
-                    <h3>jumlah HRD</h3>
-                    <p>30</p>
+                    <h3>Jumlah Perusahaan</h3>
+                    <p>{{ $jumlahPerusahaan ?? 0 }}</p>
                 </div>
                 <div class="jumlahAdmin">
-                    <h3>jumlah admin</h3>
-                    <p>5</p>
+                    <h3>Jumlah Admin</h3>
+                    <p>{{ $jumlahAdmin ?? 0 }}</p>
                 </div>
             </div>
-            <h2>postingan pekerjaan</h2>
+            <h2>Postingan Pekerjaan</h2>
             <div class="jumlahUserContainer">
                 <div class="jumlahUser">
-                    <h3>jumlah postingan pekerjaan</h3>
-                    <p>30</p>
+                    <h3>Jumlah Postingan Pekerjaan</h3>
+                    <p>{{ $jumlahPostinganPekerjaan ?? 0 }}</p>
                 </div>
             </div>
+
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
         </div>
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    </div>
-    <!-- main content end -->
+        <!-- main content end -->
 
 
 
-    <script src="{{ asset('js/sidebar.js') }}"></script>
+        <script src="{{ asset('js/sidebar.js') }}"></script>
 </body>
 
 </html>

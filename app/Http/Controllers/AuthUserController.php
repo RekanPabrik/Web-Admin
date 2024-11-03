@@ -23,6 +23,8 @@ class AuthUserController extends Controller
             'password' => 'required',
         ]);
 
+        // dd($request->input('password'));
+
         $client = new Client();
 
         try {
@@ -39,24 +41,26 @@ class AuthUserController extends Controller
                 ],
             ]);
 
+            
             // Ambil response dan ubah ke array
             $body = json_decode($response->getBody(), true);
             $token = $body['token'];
-
+            
             session(['token' => $token]);
-
+            
             $userResponse = $client->get('http://localhost:4000/auth/me', [
                 'headers' => [
                     'Authorization' => "Bearer {$token}",
                 ],
             ]);
-
+            
             $userData = json_decode($userResponse->getBody(), true);
-
+            
             if (isset($userData['data'][0][0]['role'])) {
                 $role = $userData['data'][0][0]['role'];
-
+                
                 if ($role === 'admin') {
+                    // dd("tes");
                     return redirect()->route('admin.dashboard');
                 } elseif ($role === 'pelamar') {
                     return redirect()->route('pelamar.dashboard');
@@ -73,40 +77,5 @@ class AuthUserController extends Controller
         }
     }
 
-    public function home()
-    {
-        $client = new Client();
-        $token = session('token'); // Ambil token dari session
-       
-        if (!$token) {
-            return redirect()->route('login.form');
-        }
     
-        try {
-            $userResponse = $client->get('http://localhost:4000/auth/me', [
-                'headers' => [
-                    'Authorization' => "Bearer {$token}",
-                ],
-            ]);
-    
-            $userData = json_decode($userResponse->getBody(), true);
-    
-            // Pastikan struktur data benar dan ambil user dari array dua dimensi
-            if (isset($userData['data'][0][0])) {
-                $user = $userData['data'][0][0];
-    
-                // Pilih view berdasarkan role
-                if ($user['role'] === 'admin') {
-                    return view('admin.adminPage', compact('user'));
-                } elseif ($user['role'] === 'pelamar') {
-                    return view('pelamar.pelamarPage', ['user' => $user]);
-                }
-            } else {
-                return redirect()->route('login.form')->withErrors(['login' => 'User data not found.']);
-            }
-    
-        } catch (\Throwable $e) {
-            return redirect()->route('login.form')->withErrors(['login' => 'Failed to retrieve user data: ' . $e->getMessage()]);
-        }
-    }
 }    
