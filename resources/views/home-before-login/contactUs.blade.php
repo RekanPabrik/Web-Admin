@@ -19,8 +19,8 @@
 </head>
 
 <body>
-     <!-- navbar start -->
-     <header>
+    <!-- navbar start -->
+    <header>
         <nav class="navbar" id="navbar">
             <a href="/">
                 <img src="{{ asset('assets/logoRekanPabrik.png') }}" alt="" class="nav-logo" />
@@ -30,16 +30,14 @@
                     <a href="/aboutUS" class="nav-a">about us</a>
                 </li>
                 <li class="nav-li">
-                    <a href="#" class="nav-a">for the company</a>
+                    <a href="/createAccountHRD" class="nav-a">for the company</a>
                 </li>
                 <li class="nav-li">
                     <a href="/contactUS" class="nav-a">contact Us</a>
                 </li>
-                <a href="/loginPage" class="nav-a"><button class="lgn-btn">Log
-                        in</button></a>
+                <a href="/loginPage" class="nav-a"><button class="lgn-btn">Login</button></a>
             </ul>
         </nav>
-
     </header>
     <!-- navbar end -->
     <!-- zero section start-->

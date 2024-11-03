@@ -27,6 +27,14 @@ Route::get('/aboutUS', function () {
     return view('home-before-login/aboutUs');
 })->name('aboutUs');
 
+Route::get('/createAccountHRD', function () {
+    return view('auth/registerHRD');
+})->name('registerHRD');
+
+Route::get('/createAccountPelamar', function () {
+    return view('auth/registerPelamar');
+})->name('registerPelamar');
+
 Route::get('/loginPage', function () {
     return view('auth/login');
 })->name('login.form');
