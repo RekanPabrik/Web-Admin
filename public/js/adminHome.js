@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     const data = window.apiData;
+    console.log(data)
     loadAdmin(data);
     loadPelamar(data);
     loadHRD(data);
@@ -14,9 +15,9 @@ let pekerjaanCount = 0;
 function loadAdmin(data) {
     const adminElement = document.querySelector(".stat-number.admin");
 
-    if (data.jumlahAdmin !== undefined) {
-        adminElement.textContent = data.jumlahAdmin;
-        adminCount = data.jumlahAdmin;
+    if (data.jumlahData.jumlahAdmin !== undefined) {
+        adminElement.textContent = data.jumlahData.jumlahAdmin;
+        adminCount = data.jumlahData.jumlahAdmin;
         chartView();
     } else {
         adminElement.textContent = "DATA NOT FOUND";
@@ -27,9 +28,9 @@ function loadAdmin(data) {
 function loadPelamar(data) {
     const pelamarElement = document.querySelector(".stat-number.pelamar");
 
-    if (data.jumlahPelamar !== undefined) {
-        pelamarElement.textContent = data.jumlahPelamar;
-        pelamarCount = data.jumlahPelamar;
+    if (data.jumlahData.jumlahPelamar !== undefined) {
+        pelamarElement.textContent = data.jumlahData.jumlahPelamar;
+        pelamarCount = data.jumlahData.jumlahPelamar;
         chartView();
     } else {
         pelamarElement.textContent = "DATA NOT FOUND";
@@ -40,9 +41,9 @@ function loadPelamar(data) {
 function loadHRD(data) {
     const hrdElement = document.querySelector(".stat-number.HRD");
 
-    if (data.jumlahPerusahaan !== undefined) {
-        hrdElement.textContent = data.jumlahPerusahaan;
-        hrdCount = data.jumlahPerusahaan;
+    if (data.jumlahData.jumlahHRD !== undefined) {
+        hrdElement.textContent = data.jumlahData.jumlahHRD;
+        hrdCount = data.jumlahData.jumlahHRD;
         chartView();
     } else {
         hrdElement.textContent = "DATA NOT FOUND";
@@ -55,9 +56,9 @@ function loadPekerjaan(data) {
         ".stat-number.jumlahPekerjaan"
     );
 
-    if (data.jumlahPostinganPekerjaan !== undefined) {
-        jumlahPekerjaan.textContent = data.jumlahPostinganPekerjaan;
-        pekerjaanCount = data.jumlahPostinganPekerjaan;
+    if (data.jumlahData.jumlahPostinganPekerjaan !== undefined) {
+        jumlahPekerjaan.textContent = data.jumlahData.jumlahPostinganPekerjaan;
+        pekerjaanCount = data.jumlahData.jumlahPostinganPekerjaan;
         chartView();
     } else {
         jumlahPekerjaan.textContent = "DATA NOT FOUND";

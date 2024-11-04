@@ -9,27 +9,20 @@ use Illuminate\Http\Request;
 class AuthUserController extends Controller
 {
 
-    // Menampilkan form login
     public function showLoginForm()
     {
-        return view('auth/login'); // Arahkan ke Blade view login
+        return view('auth/login');
     }
 
-    // Memproses login dan mengonsumsi API
     public function login(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
-        // dd($request->input('password'));
-
         $client = new Client();
 
         try {
-
-            // Kirim request POST ke API
             $response = $client->post('http://localhost:4000/auth/login', [
                 'headers' => [
                     'Accept' => 'application/json',
@@ -40,9 +33,6 @@ class AuthUserController extends Controller
                     'password' => $request->input('password'),
                 ],
             ]);
-
-            
-            // Ambil response dan ubah ke array
             $body = json_decode($response->getBody(), true);
             $token = $body['token'];
             
