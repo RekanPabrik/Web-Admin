@@ -60,8 +60,7 @@ class AuthUserController extends Controller
                 $role = $userData['data'][0][0]['role'];
                 
                 if ($role === 'admin') {
-                    // dd("tes");
-                    return redirect()->route('admin.dashboard');
+                    return redirect()->route('admin.home');
                 } elseif ($role === 'pelamar') {
                     return redirect()->route('pelamar.dashboard');
                 }

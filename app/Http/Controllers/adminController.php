@@ -7,6 +7,12 @@ use GuzzleHttp\Client;
 
 class adminController extends Controller
 {
+
+    public function mainAdmin()
+    {
+
+    }
+
     public function displayCountData()
     {
         $client = new Client();
@@ -27,9 +33,9 @@ class adminController extends Controller
             $jumlahAdmin = $data['data']['jumlahAdmin'] ?? 0;
             $jumlahPostinganPekerjaan = $data['data']['jumlahPostinganPekerjaan'] ?? 0;
 
-            return view('admin.dashboard', compact('jumlahPelamar', 'jumlahAdmin', 'jumlahPerusahaan', 'jumlahPostinganPekerjaan'));
+            return view('admin.home', compact('jumlahPelamar', 'jumlahAdmin', 'jumlahPerusahaan', 'jumlahPostinganPekerjaan'));
         } catch (\Throwable $e) {
-            return redirect()->route('admin.dashboard')->withErrors(['data' => 'Data tidak ditemukan.' . $e->getMessage()]);
+            return redirect()->route('admin.home')->withErrors(['data' => 'Data tidak ditemukan.' . $e->getMessage()]);
         }
     }
 
@@ -69,7 +75,7 @@ class adminController extends Controller
     
                 if ($user['role'] === 'admin') {
                     $jumlahPelamar = 1;
-                    return view('admin.adminPage', compact('user', 'jumlahPelamar', 'jumlahAdmin', 'jumlahPerusahaan', 'jumlahPostinganPekerjaan'));
+                    return view('admin.home', compact('user', 'jumlahPelamar', 'jumlahAdmin', 'jumlahPerusahaan', 'jumlahPostinganPekerjaan'));
                 } elseif ($user['role'] === 'pelamar') {
                     return view('pelamar.pelamarPage', ['user' => $user]);
                 }

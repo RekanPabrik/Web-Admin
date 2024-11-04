@@ -35,15 +35,16 @@ Route::get('/createAccountPelamar', function () {
     return view('auth/registerPelamar');
 })->name('registerPelamar');
 
+
 Route::get('/loginPage', function () {
     return view('auth/login');
 })->name('login.form');
 Route::post('/login', [AuthUserController::class, 'login'])->name('login.process');
 
 Route::middleware(['checkLogin'])->group(function () {
-    Route::get('/admin/dashboard', [adminController::class, 'home'], function () {
-        return view('admin/adminPage');
-    })->name('admin.dashboard');
+    Route::get('/admin/Home', [adminController::class, 'home'], function () {
+        return view('admin/home');
+    })->name('admin.home');
 
     Route::get('/pelamar/dashboard', [AuthUserController::class, 'home'], function () {
         return view('pelamar/pelamarPage');
