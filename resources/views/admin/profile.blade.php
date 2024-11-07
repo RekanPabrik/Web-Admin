@@ -70,7 +70,7 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{ asset('js/adminProfile.js') }}"></script>
+    <script src="{{ asset('js/admin/adminProfile.js') }}"></script>
     <script>
         window.apiData = {
             user: @json($userFound)

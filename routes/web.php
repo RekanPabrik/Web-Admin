@@ -50,6 +50,9 @@ Route::middleware(['checkLogin'])->group(function () {
     Route::get('/admin/userReports', [userReportController::class, 'userReportsAdmin'], function () {
         return view('admin/user');
     })->name('admin.user');
+    Route::delete('/admin/deletePelamar', [userReportController::class, 'deletePelamar'])->name('admin.deletePelamar');
+    Route::delete('/admin/deleteAdmin', [userReportController::class, 'deleteAdmin'])->name('admin.deleteAdmin');
+    Route::delete('/admin/deletePerusahaan', [userReportController::class, 'deletePerusahaan'])->name('admin.deletePerusahaan');
     
     Route::get('/admin/profile', [profileAdminController::class, 'profileAdmin'],function () {
         return view('admin/profile');

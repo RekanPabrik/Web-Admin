@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('styles/adminUserPage.css') }}" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
     <title>Admin Page</title>
@@ -40,8 +41,8 @@
                 <i>👤</i>
             </div>
             <div class="stat-info">
-                <h3>HRD</h3>
-                <p class="stat-number HRD"></p>
+                <h3>Perusahaan</h3>
+                <p class="stat-number Perusahaan"></p>
             </div>
         </div>
         <div class="stat-card">
@@ -81,8 +82,8 @@
             <tbody></tbody>
         </table>
         <div class="margin"></div>
-        <h1>Daftar HRD</h1>
-        <table id="HRDTable">
+        <h1>Daftar Perusahaan</h1>
+        <table id="PerusahaanTable">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -95,7 +96,7 @@
         </table>
     </div>
     <div class="marginDua"></div>
-    <script src="{{ asset('js/adminUser.js') }}"></script>
+    <script src="{{ asset('js/admin/adminUser.js') }}"></script>
     <script>
         window.apiData = {
             jumlahData: @json($jumlahDataUser),

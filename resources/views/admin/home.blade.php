@@ -40,8 +40,8 @@
                     <i>👤</i>
                 </div>
                 <div class="stat-info">
-                    <h3>HRD</h3>
-                    <p class="stat-number HRD"></p>
+                    <h3>Perusahaan</h3>
+                    <p class="stat-number Perusahaan"></p>
                 </div>
             </div>
             <div class="stat-card">
@@ -65,10 +65,10 @@
         </div>
     </div>
     <h1 class="chartTitle">
-        Distribusi Data Admin, Pelamar, HRD, dan Pekerjaan
+        Distribusi Data Admin, Pelamar, Perusahaan, dan Pekerjaan
     </h1>
     <div id="myChart"></div>
-    <script src="{{ asset('js/adminHome.js') }}"></script>
+    <script src="{{ asset('js/admin/adminHome.js') }}"></script>
     <script>
         window.apiData = {
             user: @json($userFound),
