@@ -43,7 +43,6 @@ class AuthUserController extends Controller
                     'Authorization' => "Bearer {$token}",
                 ],
             ]);
-            
             $userData = json_decode($userResponse->getBody(), true);
             
             if (isset($userData['data'][0][0]['role'])) {

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\homeController;
+use App\Http\Controllers\admin\profileAdminController;
 use App\Http\Controllers\admin\userReportController;
 use App\Http\Controllers\AuthUserController;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +50,12 @@ Route::middleware(['checkLogin'])->group(function () {
     Route::get('/admin/userReports', [userReportController::class, 'userReportsAdmin'], function () {
         return view('admin/user');
     })->name('admin.user');
+    
+    Route::get('/admin/profile', [profileAdminController::class, 'profileAdmin'],function () {
+        return view('admin/profile');
+    })->name('admin.profile');
+    Route::post('/admin/updateProfile', [profileAdminController::class, 'updateProfileAdmin'])->name('admin.updateProfile');
+
 
     Route::get('/pelamar/dashboard', [AuthUserController::class, 'home'], function () {
         return view('pelamar/pelamarPage');
