@@ -1,15 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
     const data = window.apiData;
-    console.log(data)
     loadAdmin(data);
     loadPelamar(data);
-    loadHRD(data);
+    loadPerusahaan(data);
     loadPekerjaan(data);
 });
 
 let adminCount = 0;
 let pelamarCount = 0;
-let hrdCount = 0;
+let PerusahaanCount = 0;
 let pekerjaanCount = 0;
 
 function loadAdmin(data) {
@@ -38,16 +37,16 @@ function loadPelamar(data) {
     }
 }
 
-function loadHRD(data) {
-    const hrdElement = document.querySelector(".stat-number.HRD");
+function loadPerusahaan(data) {
+    const PerusahaanElement = document.querySelector(".stat-number.Perusahaan");
 
-    if (data.jumlahData.jumlahHRD !== undefined) {
-        hrdElement.textContent = data.jumlahData.jumlahHRD;
-        hrdCount = data.jumlahData.jumlahHRD;
+    if (data.jumlahData.jumlahPerusahaan !== undefined) {
+        PerusahaanElement.textContent = data.jumlahData.jumlahPerusahaan;
+        PerusahaanCount = data.jumlahData.jumlahPerusahaan;
         chartView();
     } else {
-        hrdElement.textContent = "DATA NOT FOUND";
-        console.error("Error: jumlahHRD not found in apiData");
+        PerusahaanElement.textContent = "DATA NOT FOUND";
+        console.error("Error: jumlahPerusahaan not found in apiData");
     }
 }
 
@@ -70,7 +69,7 @@ function chartView() {
     if (
         adminCount === 0 &&
         pelamarCount === 0 &&
-        hrdCount === 0 &&
+        PerusahaanCount === 0 &&
         pekerjaanCount === 0
     )
         return;
@@ -83,7 +82,7 @@ function chartView() {
             ["Kategori", "Jumlah"],
             ["Admin", adminCount],
             ["Pelamar", pelamarCount],
-            ["HRD", hrdCount],
+            ["Perusahaan", PerusahaanCount],
             ["Pekerjaan", pekerjaanCount],
         ]);
 

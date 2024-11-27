@@ -24,7 +24,7 @@
 .nav-container {
     flex: 1;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
 }
 
 .nav-links {
@@ -54,16 +54,6 @@
 
 .nav-item i {
     font-size: 14px;
-}
-
-.logout-container {
-    min-width: 200px;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.logout {
-    background-color: rgba(0, 0, 0, 0.1);
 }
 
 /* Font Awesome style simulation */

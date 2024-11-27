@@ -60,7 +60,7 @@ class homeController extends Controller
             $data = json_decode($userResponse->getBody(), true);
             $jumlahData = (object) [
                 'jumlahPelamar' => $data['data']['jumlahPelamar'] ?? 0,
-                'jumlahHRD' => $data['data']['jumlahPerusahaan'] ?? 0,
+                'jumlahPerusahaan' => $data['data']['jumlahPerusahaan'] ?? 0,
                 'jumlahAdmin' => $data['data']['jumlahAdmin'] ?? 0,
                 'jumlahPostinganPekerjaan' => $data['data']['jumlahPostinganPekerjaan'] ?? 0,
             ];

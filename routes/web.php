@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\homeController;
+use App\Http\Controllers\admin\pengaduanController;
 use App\Http\Controllers\admin\profileAdminController;
 use App\Http\Controllers\admin\userReportController;
 use App\Http\Controllers\AuthUserController;
@@ -24,6 +25,7 @@ Route::get('/', function () {
 Route::get('/contactUS', function () {
     return view('home-before-login/contactUs');
 })->name('contactUs');
+Route::post('/addPengaduan', [pengaduanController::class, 'addPengaduan'])->name('pengaduan');
 
 Route::get('/aboutUS', function () {
     return view('home-before-login/aboutUs');
@@ -50,7 +52,16 @@ Route::middleware(['checkLogin'])->group(function () {
     Route::get('/admin/userReports', [userReportController::class, 'userReportsAdmin'], function () {
         return view('admin/user');
     })->name('admin.user');
-    
+    Route::delete('/admin/deletePelamar', [userReportController::class, 'deletePelamar'])->name('admin.deletePelamar');
+    Route::delete('/admin/deleteAdmin', [userReportController::class, 'deleteAdmin'])->name('admin.deleteAdmin');
+    Route::delete('/admin/deletePerusahaan', [userReportController::class, 'deletePerusahaan'])->name('admin.deletePerusahaan');
+    Route::post('/admin/addAdmin', [userReportController::class, 'addAdmin'])->name('admin.addAdmin');
+
+    Route::get('/admin/pengaduan', [pengaduanController::class, 'mainPengaduan'], function () {
+        return view('admin/pengaduan');
+    })->name('admin.pengaduan');
+    Route::delete('/admin/deleteLaporan', [pengaduanController::class, 'deletePengaduan'])->name('admin.deletePengaduan');
+
     Route::get('/admin/profile', [profileAdminController::class, 'profileAdmin'],function () {
         return view('admin/profile');
     })->name('admin.profile');

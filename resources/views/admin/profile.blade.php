@@ -16,12 +16,9 @@
         <div class="nav-container">
             <div class="nav-links">
                 <a href="/admin/userReports" class="nav-item"> User </a>
-                <a href="../report/report.html" class="nav-item"> Laporan </a>
+                <a href="/admin/pengaduan" class="nav-item"> Pengaduan </a>
                 <a href="/admin/profile" class="nav-item"> Profil </a>
             </div>
-        </div>
-        <div class="logout-container">
-            <a href="#" class="nav-item logout"> Logout </a>
         </div>
     </nav>
 
@@ -70,7 +67,7 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{ asset('js/adminProfile.js') }}"></script>
+    <script src="{{ asset('js/admin/adminProfile.js') }}"></script>
     <script>
         window.apiData = {
             user: @json($userFound)
