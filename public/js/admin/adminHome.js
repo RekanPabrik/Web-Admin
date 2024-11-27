@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
     const data = window.apiData;
-    console.log(data)
     loadAdmin(data);
     loadPelamar(data);
     loadPerusahaan(data);

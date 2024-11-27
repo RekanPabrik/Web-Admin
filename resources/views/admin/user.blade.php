@@ -17,12 +17,9 @@
         <div class="nav-container">
             <div class="nav-links">
                 <a href="/admin/userReports" class="nav-item"> User </a>
-                <a href="../report/report.html" class="nav-item"> Laporan </a>
+                <a href="/admin/pengaduan" class="nav-item"> Pengaduan </a>
                 <a href="/admin/profile" class="nav-item"> Profil </a>
             </div>
-        </div>
-        <div class="logout-container">
-            <a href="#" class="nav-item logout"> Logout </a>
         </div>
     </nav>
     <!-- Stats Cards -->
@@ -68,6 +65,7 @@
             </thead>
             <tbody></tbody>
         </table>
+        <button class="tambahAdminBTN" id="tambahBtn">Tambah Admin</button>
         <div class="margin"></div>
         <h1>Daftar Pelamar</h1>
         <table id="pelamarTable">
@@ -96,6 +94,39 @@
         </table>
     </div>
     <div class="marginDua"></div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Tambah Admin</h2>
+            <br>
+            <form id="userForm">
+                <label for="first_name">First Name:</label><br>
+                <input type="text" id="first_name" name="first_name" >
+                <br><br>
+    
+                <label for="last_name">Last Name:</label><br>
+                <input type="text" id="last_name" name="last_name" >
+                <br><br>
+    
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email" >
+                <br><br>
+    
+                <label for="password">Password:</label><br>
+                <input type="password" id="password" name="password" >
+                <br><br>
+    
+                <label for="confirm_password">Konfirmasi Password:</label><br>
+                <input type="password" id="confirm_password" name="confirm_password" >
+                <p id="passwordError" style="color: red; display: none;">Password dan konfirmasi password tidak sesuai</p>
+
+                <br><br>
+    
+                <button type="submit">Simpan</button>
+            </form>
+        </div>
+    </div>
     <script src="{{ asset('js/admin/adminUser.js') }}"></script>
     <script>
         window.apiData = {

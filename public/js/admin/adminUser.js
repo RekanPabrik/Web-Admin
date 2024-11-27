@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loadAdmin(data);
     loadPelamar(data);
     loadPerusahaan(data);
+    addUser()
 });
 
 function loadAdmin(data) {
@@ -29,11 +30,6 @@ function loadAdmin(data) {
             <td>${admin.first_name} ${admin.last_name}</td>
             <td>${admin.email}</td>
             <td>
-              <button  class="adminEditBTN action-btn edit-btn" data-id="${
-                  admin.id_admin
-              }" data-name="${admin.first_name} ${
-                admin.last_name
-            }">Edit</button>
               <button  class="adminDeleteBTN action-btn delete-btn" data-id="${
                   admin.id_admin
               }" data-name="${admin.first_name} ${
@@ -43,12 +39,6 @@ function loadAdmin(data) {
           </tr>
         `;
             tbody.append(row);
-        });
-
-        $(".adminEditBTN").on("click", function () {
-            const userId = $(this).data("id");
-            const name = $(this).data("name");
-            editUserAdmin(userId, name);
         });
 
         $(".adminDeleteBTN").on("click", function () {
@@ -82,11 +72,6 @@ function loadPelamar(data) {
                             <td>${pelamar.first_name} ${pelamar.last_name}</td>
                             <td>${pelamar.email}</td>
                             <td>
-                                <button class="pelamarEditBTN action-btn edit-btn" data-id="${
-                                    pelamar.id_pelamar
-                                }" data-name="${pelamar.first_name} ${
-                pelamar.last_name
-            }">Edit</button>
                                 <button class="pelamarDeleteBTN action-btn delete-btn" data-id="${
                                     pelamar.id_pelamar
                                 }" data-name="${pelamar.first_name} ${
@@ -97,12 +82,6 @@ function loadPelamar(data) {
                     `;
 
             tbody.append(row);
-        });
-
-        $(".pelamarEditBTN").on("click", function () {
-            const userId = $(this).data("id");
-            const name = $(this).data("name");
-            editUserPelamar(userId, name);
         });
 
         $(".pelamarDeleteBTN").on("click", function () {
@@ -136,9 +115,7 @@ function loadPerusahaan(data) {
                         <td>${Perusahaan.nama_perusahaan}</td>
                         <td>${Perusahaan.email}</td>
                         <td>
-                            <button class="PerusahaanEditBTN action-btn edit-btn" data-id="${
-                                Perusahaan.id_perusahaan
-                            }" data-name="${Perusahaan.nama_perusahaan}">Edit</button>
+                            
                             <button class="PerusahaanDeleteBTN action-btn delete-btn" data-id="${
                                 Perusahaan.id_perusahaan
                             }" data-name="${
@@ -151,28 +128,10 @@ function loadPerusahaan(data) {
             tbody.append(row);
         });
 
-        $(".PerusahaanEditBTN").on("click", function () {
-            const userId = $(this).data("id");
-            const name = $(this).data("name");
-            editUserPerusahaan(userId, name);
-        });
-
         $(".PerusahaanDeleteBTN").on("click", function () {
             const userId = $(this).data("id");
             const name = $(this).data("name");
             deleteUserPerusahaan(userId, name);
-        });
-    }
-}
-
-function editUserAdmin(userId, name) {
-    const confirmDelete = confirm(`Apakah kamu ingin mengedit akun: ${name} ?`);
-    if (confirmDelete) {
-        Swal.fire({
-            title: "success!",
-            text: `Berhasil mengedit akun ${name}`,
-            icon: "success",
-            confirmButtonText: "lanjutkan",
         });
     }
 }
@@ -228,18 +187,6 @@ function deleteUserAdmin(userId, name) {
     }
 }
 
-function editUserPerusahaan(userId, name) {
-    const confirmDelete = confirm(`Apakah kamu ingin mengedit akun: ${name} ?`);
-    if (confirmDelete) {
-        Swal.fire({
-            title: "success!",
-            text: `Berhasil mengedit akun ${name}`,
-            icon: "success",
-            confirmButtonText: "lanjutkan",
-        });
-    }
-}
-
 function deleteUserPerusahaan(userId, name) {
     const dataID = { id_perusahaan: userId };
     const confirmDelete = confirm(
@@ -288,18 +235,6 @@ function deleteUserPerusahaan(userId, name) {
                     confirmButtonText: "Coba Lagi",
                 });
             });
-    }
-}
-
-function editUserPelamar(userId, name) {
-    const confirmDelete = confirm(`Apakah kamu ingin mengedit akun: ${name} ?`);
-    if (confirmDelete) {
-        Swal.fire({
-            title: "success!",
-            text: `Berhasil mengedit akun ${name}`,
-            icon: "success",
-            confirmButtonText: "lanjutkan",
-        });
     }
 }
 
@@ -352,4 +287,90 @@ function deleteUserPelamar(userId, name) {
                 });
             });
     }
+}
+
+function addUser() {
+    const tambahBtn = document.getElementById("tambahBtn");
+    const modal = document.getElementById("modal");
+    const closeBtn = document.querySelector(".close");
+    const userForm = document.getElementById("userForm");
+
+    tambahBtn.addEventListener("click", () => {
+        modal.style.display = "block";
+    });
+
+    closeBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    window.addEventListener("click", (event) => {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    });
+
+    userForm.addEventListener("submit", async (event) => {
+        event.preventDefault(); 
+
+        const first_name = document.getElementById("first_name").value;
+        const last_name = document.getElementById("last_name").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirm_password").value;
+        const passwordError = document.getElementById("passwordError");
+
+        if (password !== confirmPassword) {
+            passwordError.style.display = "block";
+        } else {
+            passwordError.style.display = "none";
+        }
+
+        if (!first_name || !last_name || !email || !password || !confirmPassword) {
+            alert("Harap lengkapi semua input.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("first_name", first_name);
+        formData.append("last_name", last_name);
+        formData.append("email", email);
+        formData.append("password", password);
+
+        try {
+            const response = await fetch("/admin/addAdmin", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector(
+                        'meta[name="csrf-token"]'
+                    ).content,
+                },
+            });
+            const result = await response.json();
+            if (result.success) {
+                Swal.fire({
+                    title: "success!",
+                    text: `Berhasil menambahkan user`,
+                    icon: "success",
+                    confirmButtonText: "lanjutkan",
+                });
+                document.getElementById("modal").style.display = "none";
+            } else {
+                Swal.fire({
+                    title: "Error!",
+                    text: result.error ||"Gagal menambahkan admin",
+                    icon: "error",
+                    confirmButtonText: "Coba Lagi",
+                });
+            }
+        } catch (error) {
+            console.error("Error ketika menambahkan user:", error);
+            Swal.fire({
+                title: "Error!",
+                text: error||"Terjadi kesalahan saat menambahkan admin",
+                icon: "error",
+                confirmButtonText: "Coba Lagi",
+            });
+        }
+    });
 }
