@@ -68,7 +68,7 @@
 
 
             <div class="btn">
-                <a href="#" class="cta-resetPass">
+                <a href="/inputEmailResetPass" class="cta-resetPass">
                     <p>Reset password</p>
                 </a>
                 <button class="login-btn" type="submit">login</button>

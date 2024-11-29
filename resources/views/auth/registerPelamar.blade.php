@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Register Pelamar</title>
     <link rel="stylesheet" href="{{ asset('styles/registerPelamar.css') }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -48,7 +49,8 @@
     <section>
         <div class="containerDua">
             <div class="formContainer">
-                <form id="registrationForm">
+                <form id="registrationForm" onsubmit="createAccount(event)">
+                    @csrf
                     <div class="nameContainer">
                         <div>
                             <label for="Fname">First name</label><br />
@@ -77,7 +79,7 @@
                         <span class="error" id="confirmpasswordError"></span>
                     </div>
                     <div class="btn-Container">
-                        <button type="submit">Create Account</button>
+                        <button type="submit" >Create Account</button>
                     </div>
                 </form>
             </div>

@@ -49,7 +49,7 @@
                         interests. Browse thousands of job openings across a variety of
                         industries and locations with just a few clicks.
                     </p>
-                    <a href="/src/authentication/login-page/loginPage.html">
+                    <a href="/loginPage">
                         <button class="zero-SectionBTN">click me</button>
                     </a>
                 </div>
