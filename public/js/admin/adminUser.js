@@ -160,6 +160,7 @@ function deleteUserAdmin(userId, name) {
             })
             .then((data) => {
                 if (data.success) {
+                    console.log(data)
                     Swal.fire({
                         title: "success!",
                         text: `Berhasil menghapus akun ${name}`,
@@ -167,7 +168,9 @@ function deleteUserAdmin(userId, name) {
                         confirmButtonText: "lanjutkan",
                     });
                 } else {
+                    console.log(data)
                     Swal.fire({
+                        
                         title: "Error!",
                         text: data.error || "Gagal menghapus user",
                         icon: "error",
@@ -321,6 +324,7 @@ function addUser() {
 
         if (password !== confirmPassword) {
             passwordError.style.display = "block";
+            return;
         } else {
             passwordError.style.display = "none";
         }
@@ -347,6 +351,7 @@ function addUser() {
                 },
             });
             const result = await response.json();
+            console.log(result)
             if (result.success) {
                 Swal.fire({
                     title: "success!",
@@ -357,8 +362,8 @@ function addUser() {
                 document.getElementById("modal").style.display = "none";
             } else {
                 Swal.fire({
-                    title: "Error!",
-                    text: result.error ||"Gagal menambahkan admin",
+                    title: "Gagal menambahkan admin!",
+                    text: "Email admin sudah terdaftar",
                     icon: "error",
                     confirmButtonText: "Coba Lagi",
                 });
