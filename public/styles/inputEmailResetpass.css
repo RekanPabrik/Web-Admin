@@ -1,0 +1,112 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+* body,
+html {
+    margin: 0px;
+    padding: 0px;
+    text-transform: capitalize;
+    font-family: "Poppins", system-ui;
+}
+
+.navbar {
+    position: fixed;
+    display: flex;
+    color: black;
+    background-color: transparent;
+    transition: 0.2s;
+    font-size: 20px;
+    font-weight: 500;
+    justify-content: space-between;
+    width: 100%;
+    top: 0;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.nav-logo {
+    height: 100px;
+}
+
+.nav-ul {
+    display: flex;
+    gap: 25px;
+    margin-right: 25px;
+    align-items: center;
+}
+
+nav ul {
+    list-style: none;
+    text-decoration: none;
+}
+
+li a {
+    text-decoration: none;
+    color: black;
+}
+
+li a:after {
+    content: "";
+    width: 0%;
+    height: 2px;
+    display: block;
+    transition: all 0.2s ease-in-out;
+}
+
+li a:hover::after {
+    width: 100%;
+    display: block;
+    height: 3px;
+    background-color: #a86108;
+}
+
+.lgn-btn {
+    width: 100px;
+    height: 42px;
+    border-radius: 10px;
+    border: transparent;
+    background-color: #a86108;
+    font-weight: bold;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.containerEmailResetPass {
+    margin-top: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.emailContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.emailContainer label {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.emailContainer input {
+    width: 300px;
+    height: 30px;
+    border-radius: 5px;
+    font-size: 15px;
+    border: 1px solid grey;
+}
+
+.btnContainer{
+    margin-top: 30px;
+}
+
+.btnContainer button{
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    background-color: #a86108;
+    font-weight: 600;
+    cursor: pointer;
+}

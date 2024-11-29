@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\pengaduanController;
 use App\Http\Controllers\admin\profileAdminController;
 use App\Http\Controllers\admin\userReportController;
 use App\Http\Controllers\AuthUserController;
+use App\Http\Controllers\resetPassword;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,18 +32,28 @@ Route::get('/aboutUS', function () {
     return view('home-before-login/aboutUs');
 })->name('aboutUs');
 
+Route::get('/inputEmailResetPass', function () {
+    return view('auth/inputEmailResetPass');
+})->name('inputEmailResetPass');
+
 Route::get('/createAccountHRD', function () {
     return view('auth/registerHRD');
 })->name('registerHRD');
+Route::post('/createAccountPerusahaan', [AuthUserController::class, 'addPerusahaan'])->name('addPerusahaan');
 
 Route::get('/createAccountPelamar', function () {
     return view('auth/registerPelamar');
 })->name('registerPelamar');
+Route::post('/createAccountPelamar', [AuthUserController::class, 'addPelamar'])->name('addPelamar');
 
 Route::get('/loginPage', function () {
     return view('auth/login');
 })->name('login.form');
 Route::post('/login', [AuthUserController::class, 'login'])->name('login.process');
+
+Route::post('/reqResetPass', [resetPassword::class, 'requestResetPass'])->name('requestResetPass');
+Route::get('/resetPassword/{token}', [resetPassword::class, 'showResetPasswordForm'])->name('resetPassword');
+Route::post('/resetPassword/{token}', [resetPassword::class, 'resetPassword'])->name('reset.password');
 
 Route::middleware(['checkLogin'])->group(function () {
     Route::get('/admin/Home', [homeController::class, 'homeAdmin'], function () {

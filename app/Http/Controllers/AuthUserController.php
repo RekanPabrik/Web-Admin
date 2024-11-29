@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthUserController extends Controller
 {
@@ -65,5 +66,37 @@ class AuthUserController extends Controller
         }
     }
 
-    
+    public function addPelamar(Request $request)
+    {
+        try {
+            $client = new Client();
+            $response = $client->post("http://localhost:4000/auth/registerPelamar", [
+                'headers' => [
+                    'Accept' => 'application/json',
+                ],
+                'json' => $request->all(),
+            ]);
+
+            return response()->json(['success' => true, 'message' => 'berhasil membuat akun']);
+        } catch (\Throwable $e) {
+            return response()->json(['success' => false, 'error' => 'gagal membuat akun: ' . $e->getMessage()]);
+        }
+    }
+
+    public function addPerusahaan(Request $request)
+    {
+        try {
+            $client = new Client();
+            $response = $client->post("http://localhost:4000/auth/registerPerusahaan", [
+                'headers' => [
+                    'Accept' => 'application/json',
+                ],
+                'json' => $request->all(),
+            ]);
+
+            return response()->json(['success' => true, 'message' => 'berhasil membuat akun']);
+        } catch (\Throwable $e) {
+            return response()->json(['success' => false, 'error' => 'gagal membuat akun: ' . $e->getMessage()]);
+        }
+    }
 }    
