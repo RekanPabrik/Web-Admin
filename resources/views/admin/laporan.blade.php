@@ -5,9 +5,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="{{ asset('styles/adminPengaduan.css') }}" />
+    <link rel="stylesheet" href="{{ asset('styles/adminLaporan.css') }}" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
-    <title>Pengaduan Page</title>
+    <title>Laporan page</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
 </head>
 
@@ -24,32 +24,42 @@
         </div>
     </nav>
 
-    <div class="container-utama">
-        <h1>Daftar Pengaduan</h1>
-        <table id="pengaduanTable">
+    <div class="container">
+        <h1>Laporan Pendaftaran Pekerjaan</h1>
+        
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Cari berdasarkan nama atau posisi...">
+            <select id="statusFilter" class="status-filter">
+                <option value="all">Semua Status</option>
+                <option value="Diproses">Diproses</option>
+                <option value="Diterima">Diterima</option>
+                <option value="Ditolak">Ditolak</option>
+            </select>
+        </div>
+
+        <table id="jobTable">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>nomor telpon</th>
-                    <th>Email</th>
-                    <th>Pesan</th>
-                    <th>Action</th>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Posisi</th>
+                    <th>Nama perusahaan</th>
+                    <th>Status</th>
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody id="tableBody">
+            </tbody>
         </table>
-
-
     </div>
 
-    <script src="{{ asset('js/admin/adminPengaduan.js') }}"></script>
+    <script src="{{ asset('js/admin/adminLaporan.js') }}"></script>
     <script>
         window.apiData = {
-            pengaduan: @json($dataPengaduan),
+            dataLaporan: @json($dataLaporan)
         };
     </script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
+</html>

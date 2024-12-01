@@ -99,4 +99,16 @@ class AuthUserController extends Controller
             return response()->json(['success' => false, 'error' => 'gagal membuat akun: ' . $e->getMessage()]);
         }
     }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        if ($request->expectsJson()) {
+            return response()->json(['success' => true]);
+        }
+        return redirect()->route('login.form');
+    }
 }    

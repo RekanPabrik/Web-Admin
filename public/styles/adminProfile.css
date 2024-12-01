@@ -156,6 +156,21 @@ body {
     background: #166fe5;
 }
 
+.logout-button {
+    background: #AF1740;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+.logout:hover {
+    background: #740938;
+}
+
 .profile-info {
     background: white;
     border-radius: 10px;

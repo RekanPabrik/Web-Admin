@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\homeController;
+use App\Http\Controllers\admin\laporanController;
 use App\Http\Controllers\admin\pengaduanController;
 use App\Http\Controllers\admin\profileAdminController;
 use App\Http\Controllers\admin\userReportController;
@@ -50,6 +51,8 @@ Route::get('/loginPage', function () {
     return view('auth/login');
 })->name('login.form');
 Route::post('/login', [AuthUserController::class, 'login'])->name('login.process');
+Route::post('/logout', [AuthUserController::class, 'logout'])->name('logout');
+
 
 Route::post('/reqResetPass', [resetPassword::class, 'requestResetPass'])->name('requestResetPass');
 Route::get('/resetPassword/{token}', [resetPassword::class, 'showResetPasswordForm'])->name('resetPassword');
@@ -72,6 +75,10 @@ Route::middleware(['checkLogin'])->group(function () {
         return view('admin/pengaduan');
     })->name('admin.pengaduan');
     Route::delete('/admin/deleteLaporan', [pengaduanController::class, 'deletePengaduan'])->name('admin.deletePengaduan');
+    
+    Route::get('/admin/laporan', [laporanController::class, 'mainDataLaporan'],function () {
+        return view('admin/laporan');
+    })->name('admin.laporan');
 
     Route::get('/admin/profile', [profileAdminController::class, 'profileAdmin'],function () {
         return view('admin/profile');
