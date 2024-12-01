@@ -17,6 +17,7 @@
             <div class="nav-links">
                 <a href="/admin/userReports" class="nav-item"> User </a>
                 <a href="/admin/pengaduan" class="nav-item"> Pengaduan </a>
+                <a href="/admin/laporan" class="nav-item"> Laporan </a>
                 <a href="/admin/profile" class="nav-item"> Profil </a>
             </div>
         </div>
@@ -26,7 +27,10 @@
         <div class="profile-header">
             <h1 class="profile-name" id="profileName"></h1>
             <p class="profile-bio" id="profileBio"></p>
-            <button class="edit-button" onclick="toggleEdit()">Edit Profile</button>
+            <div class="btn">
+                <button class="edit-button" onclick="toggleEdit()">Edit Profile</button>
+                <button class="logout-button" onclick="logout()">Logoout</button>
+            </div>
         </div>
 
         <div class="profile-info">

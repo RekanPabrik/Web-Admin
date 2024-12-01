@@ -100,3 +100,46 @@ function updateProfile() {
             });
     }
 }
+
+function logout() {
+    Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: "Anda akan keluar dari sesi ini.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Tidak',
+        confirmButtonText: 'Iya, logout',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('/logout', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/loginPage';
+                } else {
+                    Swal.fire({
+                        title: 'Gagal Logout',
+                        text: 'Terjadi masalah saat logout. Silakan coba lagi.',
+                        icon: 'error'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Logout error:', error);
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Terjadi kesalahan jaringan. Silakan coba lagi.',
+                    icon: 'error'
+                });
+            });
+        }
+    });
+}

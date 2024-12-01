@@ -16,6 +16,7 @@
             <div class="nav-links">
                 <a href="/admin/userReports" class="nav-item"> User </a>
                 <a href="/admin/pengaduan" class="nav-item"> Pengaduan </a>
+                <a href="/admin/laporan" class="nav-item"> Laporan </a>
                 <a href="/admin/profile" class="nav-item"> Profil </a>
             </div>
         </div>
