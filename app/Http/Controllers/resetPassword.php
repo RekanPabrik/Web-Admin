@@ -47,7 +47,7 @@ class resetPassword extends Controller
          
         try {
             $client = new Client();
-            $response = $client->post('http://localhost:4000/auth/resetPasword', [
+            $response = $client->post('http://localhost:4000/auth/requestResetPassword', [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
