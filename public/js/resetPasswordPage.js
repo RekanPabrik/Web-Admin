@@ -21,7 +21,6 @@ function cekData(){
         submit(data, token);
     }
 }
-
 function submit(data, token) {
     document
         .getElementById("resetPasswordBtn")
@@ -64,6 +63,7 @@ function resetPass( newPassword, token) {
                     icon: "success",
                     confirmButtonText: "lanjutkan",
                 });
+                logout();
             } else {
                 Swal.fire({
                     title: "Error!",
@@ -82,4 +82,23 @@ function resetPass( newPassword, token) {
                 confirmButtonText: "Coba Lagi",
             });
         });
+}
+
+function logout() {
+    fetch('/logout', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            window.location.href = '/loginPage';
+        }
+    })
+    .catch(error => {
+        console.error('Logout error:', error);
+    });
 }
