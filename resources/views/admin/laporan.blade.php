@@ -30,7 +30,7 @@
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="Cari berdasarkan nama atau posisi...">
             <select id="statusFilter" class="status-filter">
-                <option value="all">Semua Status</option>
+                <option value="all">All Stats</option>
                 <option value="Diproses">Diproses</option>
                 <option value="Diterima">Diterima</option>
                 <option value="Ditolak">Ditolak</option>
