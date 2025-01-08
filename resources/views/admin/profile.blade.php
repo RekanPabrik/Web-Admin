@@ -35,11 +35,11 @@
 
         <div class="profile-info">
             <div class="info-item">
-                <div class="info-label">Fisrt name</div>
+                <div class="info-label">First name</div>
                 <div class="info-value" id="Fname"></div>
             </div>
             <div class="info-item">
-                <div class="info-label">Fisrt name</div>
+                <div class="info-label">First name</div>
                 <div class="info-value" id="Lname"></div>
             </div>
             
