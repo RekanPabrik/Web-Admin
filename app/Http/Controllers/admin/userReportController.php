@@ -11,10 +11,11 @@ class userReportController extends Controller
     public function userReportsAdmin()
     {
         $token = session('token');
-        $jumlahDataUser = $this->displayCountData($token);
-        $dataPelamar = $this->getAllPelamar($token);
-        $dataPerusahaan = $this->getAllPerusahaan($token);
-        $dataAdmin = $this->getAllAdmin($token);
+        $baseUrl = config('api.url');
+        $jumlahDataUser = $this->displayCountData($token, $baseUrl);
+        $dataPelamar = $this->getAllPelamar($token, $baseUrl);
+        $dataPerusahaan = $this->getAllPerusahaan($token, $baseUrl);
+        $dataAdmin = $this->getAllAdmin($token, $baseUrl );
 
         $dataUser = (object) [
             'jumlahPelamar' => $dataPelamar,
@@ -25,12 +26,12 @@ class userReportController extends Controller
         return view('admin.user', ['jumlahDataUser' => $jumlahDataUser, 'data' => $dataUser]);
     }
 
-    public function displayCountData($token)
+    public function displayCountData($token, $baseUrl)
     {
         $client = new Client();
 
         try {
-            $userResponse = $client->get('http://localhost:4000/admin/countUser', [
+            $userResponse = $client->get("{$baseUrl}/admin/countUser", [
                 'headers' => [
                     'Authorization' => "Bearer {$token}",
                 ],
@@ -48,12 +49,12 @@ class userReportController extends Controller
         }
     }
 
-    public function getAllAdmin($token)
+    public function getAllAdmin($token, $baseUrl)
     {
         $client = new Client();
 
         try {
-            $dataAdminResponse = $client->get('http://localhost:4000/admin/getAllAdmin', [
+            $dataAdminResponse = $client->get("{$baseUrl}/admin/getAllAdmin", [
                 'headers' => [
                     'Authorization' => "Bearer {$token}",
                 ],
@@ -65,12 +66,12 @@ class userReportController extends Controller
         }
     }
 
-    public function getAllPelamar($token)
+    public function getAllPelamar($token, $baseUrl)
     {
         $client = new Client();
 
         try {
-            $dataPelamarResponse = $client->get('http://localhost:4000/pelamar/getAllPelamar', [
+            $dataPelamarResponse = $client->get("{$baseUrl}/pelamar/getAllPelamar", [
                 'headers' => [
                     'Authorization' => "Bearer {$token}",
                 ],
@@ -82,12 +83,12 @@ class userReportController extends Controller
         }
     }
 
-    public function getAllPerusahaan($token)
+    public function getAllPerusahaan($token, $baseUrl)
     {
         $client = new Client();
 
         try {
-            $dataPerusahaanResponse = $client->get('http://localhost:4000/perusahaan/getAllPerusahaan', [
+            $dataPerusahaanResponse = $client->get("{$baseUrl}/perusahaan/getAllPerusahaan", [
                 'headers' => [
                     'Authorization' => "Bearer {$token}",
                 ],
@@ -102,6 +103,7 @@ class userReportController extends Controller
     public function deletePelamar(Request $request)
     {
         $token = session('token');
+        $baseUrl = config('api.url');
         
         if (!$token) {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -115,7 +117,7 @@ class userReportController extends Controller
 
         try {
             $client = new Client();
-            $response = $client->delete('http://localhost:4000/pelamar/deletePelamar', [
+            $response = $client->delete("{$baseUrl}/pelamar/deletePelamar", [
                 'headers' => [
                     'Authorization' => "Bearer {$token}",
                     'Accept' => 'application/json',
@@ -132,6 +134,7 @@ class userReportController extends Controller
     public function deleteAdmin(Request $request)
     {
         $token = session('token');
+        $baseUrl = config('api.url');
         
         if (!$token) {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -145,7 +148,7 @@ class userReportController extends Controller
 
         try {
             $client = new Client();
-            $response = $client->delete('http://localhost:4000/admin/deleteAdmin', [
+            $response = $client->delete("{$baseUrl}/admin/deleteAdmin", [
                 'headers' => [
                     'Authorization' => "Bearer {$token}",
                     'Accept' => 'application/json',
@@ -162,6 +165,7 @@ class userReportController extends Controller
     public function deletePerusahaan(Request $request)
     {
         $token = session('token');
+        $baseUrl = config('api.url');
         
         if (!$token) {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -175,7 +179,7 @@ class userReportController extends Controller
 
         try {
             $client = new Client();
-            $response = $client->delete('http://localhost:4000/perusahaan/deletePerusahaan', [
+            $response = $client->delete("{$baseUrl}/perusahaan/deletePerusahaan", [
                 'headers' => [
                     'Authorization' => "Bearer {$token}",
                     'Accept' => 'application/json',
@@ -192,6 +196,7 @@ class userReportController extends Controller
     public function addAdmin(Request $request)
     {
         $token = session('token');
+        $baseUrl = config('api.url');
 
         if (!$token) {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -199,7 +204,7 @@ class userReportController extends Controller
 
         try {
             $client = new Client();
-            $response = $client->post("http://localhost:4000/auth/registerAdmin", [
+            $response = $client->post("{$baseUrl}/auth/registerAdmin", [
                 'headers' => [
                     'Authorization' => "Bearer {$token}",
                     'Accept' => 'application/json',

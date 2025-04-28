@@ -11,19 +11,20 @@ class homeController extends Controller
     public function homeAdmin()
     {
         $token = session('token');
-        $userFound = $this->me($token); 
-        $jumlahDataUser = $this->displayCountData($token);
+        $baseUrl = config('api.url');
+        $userFound = $this->me($token, $baseUrl); 
+        $jumlahDataUser = $this->displayCountData($token, $baseUrl);
         return view('admin.home', ['userFound' => $userFound, 'jumlahDataUser' => $jumlahDataUser]);
     }
 
-    public function me($token){
+    public function me($token, $baseUrl){
         $client = new Client();
         if (!$token) {
             return redirect()->route('login.form');
         }
 
         try {
-            $userResponse = $client->get('http://localhost:4000/auth/me', [
+            $userResponse = $client->get("{$baseUrl}/auth/me", [
                 'headers' => [
                     'Authorization' => "Bearer {$token}",
                 ],
@@ -47,12 +48,12 @@ class homeController extends Controller
         }
     }
 
-    public function displayCountData($token)
+    public function displayCountData($token, $baseUrl)
     {
         $client = new Client();
 
         try {
-            $userResponse = $client->get('http://localhost:4000/admin/countUser', [
+            $userResponse = $client->get("{$baseUrl}/admin/countUser", [
                 'headers' => [
                     'Authorization' => "Bearer {$token}",
                 ],

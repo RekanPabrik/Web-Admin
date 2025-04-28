@@ -11,11 +11,12 @@ class profileAdminController extends Controller
     public function profileAdmin()
     {
         $token = session('token');
-        $userFound = $this->me($token);
+        $baseUrl = config('api.url');
+        $userFound = $this->me($token, $baseUrl);
         return view('admin.profile', ['userFound' => $userFound]);
     }
 
-    public function me($token)
+    public function me($token, $baseUrl)
     {
         $client = new Client();
         if (!$token) {
@@ -23,7 +24,7 @@ class profileAdminController extends Controller
         }
 
         try {
-            $userResponse = $client->get('http://localhost:4000/auth/me', [
+            $userResponse = $client->get("{$baseUrl}/auth/me", [
                 'headers' => [
                     'Authorization' => "Bearer {$token}",
                 ],
