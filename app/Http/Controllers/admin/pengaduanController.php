@@ -11,16 +11,17 @@ class pengaduanController extends Controller
     public function mainPengaduan()
     {
         $token = session('token');
-        $data = $this->getAllPengaduan($token);
+        $baseUrl = config('api.url');
+        $data = $this->getAllPengaduan($token, $baseUrl);
 
         return view('admin.pengaduan', ['dataPengaduan' => $data]);
     }
 
-    public function getAllPengaduan($token)
+    public function getAllPengaduan($token, $baseUrl)
     {
         $client = new Client();
         try {
-            $response = $client->get('http://localhost:4000/pengaduan/getAllPengaduan', [
+            $response = $client->get("{$baseUrl}/pengaduan/getAllPengaduan", [
                 'headers' => [
                     'Authorization' => "Bearer {$token}",
                 ],  
@@ -36,7 +37,8 @@ class pengaduanController extends Controller
     {
         try {
             $client = new Client();
-            $response = $client->post('http://localhost:4000/pengaduan/addPengaduan', [
+            $baseUrl = config('api.url');
+            $response = $client->post("{$baseUrl}/pengaduan/addPengaduan", [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
@@ -59,6 +61,7 @@ class pengaduanController extends Controller
     public function deletePengaduan(Request $request)
     {
         $token = session('token');
+        $baseUrl = config('api.url');
         
         if (!$token) {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -72,7 +75,7 @@ class pengaduanController extends Controller
 
         try {
             $client = new Client();
-            $response = $client->delete("http://localhost:4000/pengaduan/deletePengaduan/{$pengaduanID}", [
+            $response = $client->delete("{$baseUrl}/pengaduan/deletePengaduan/{$pengaduanID}", [
                 'headers' => [
                     'Authorization' => "Bearer {$token}",
                     'Accept' => 'application/json',

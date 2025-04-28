@@ -11,16 +11,17 @@ class laporanController extends Controller
     public function mainDataLaporan()
     {
         $token = session('token');
-        $data = $this->getDataLaporan($token);
+        $baseUrl = config('api.url');
+        $data = $this->getDataLaporan($token, $baseUrl);
 
         return view('admin.laporan', ['dataLaporan' => $data]);
     }
 
-    public function getDataLaporan($token)
+    public function getDataLaporan($token, $baseUrl)
     {
         $client = new Client();
         try {
-            $response = $client->get('http://localhost:4000/melamarPekerjaan/getDataMelamarPekarjaan', [
+            $response = $client->get("{$baseUrl}/melamarPekerjaan/getDataMelamarPekarjaan", [
                 'headers' => [
                     'Authorization' => "Bearer {$token}",
                 ],  

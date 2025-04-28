@@ -17,6 +17,7 @@ class AuthUserController extends Controller
 
     public function login(Request $request)
     {
+        $baseUrl = config('api.url');
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -24,7 +25,7 @@ class AuthUserController extends Controller
         $client = new Client();
 
         try {
-            $response = $client->post('http://localhost:4000/auth/login', [
+            $response = $client->post("{$baseUrl}/auth/login", [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
@@ -39,7 +40,7 @@ class AuthUserController extends Controller
             
             session(['token' => $token]);
             
-            $userResponse = $client->get('http://localhost:4000/auth/me', [
+            $userResponse = $client->get("{$baseUrl}/auth/me", [
                 'headers' => [
                     'Authorization' => "Bearer {$token}",
                 ],
@@ -68,9 +69,10 @@ class AuthUserController extends Controller
 
     public function addPelamar(Request $request)
     {
+        $baseUrl = config('api.url');
         try {
             $client = new Client();
-            $response = $client->post("http://localhost:4000/auth/registerPelamar", [
+            $response = $client->post("{$baseUrl}/auth/registerPelamar", [
                 'headers' => [
                     'Accept' => 'application/json',
                 ],
@@ -87,7 +89,8 @@ class AuthUserController extends Controller
     {
         try {
             $client = new Client();
-            $response = $client->post("http://localhost:4000/auth/registerPerusahaan", [
+            $baseUrl = config('api.url');
+            $response = $client->post("{$baseUrl}/auth/registerPerusahaan", [
                 'headers' => [
                     'Accept' => 'application/json',
                 ],

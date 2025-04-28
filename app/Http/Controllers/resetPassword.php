@@ -17,13 +17,14 @@ class resetPassword extends Controller
 
     public function me($token)
     {
+        $baseUrl = config('api.url');
         $client = new Client();
         if (!$token) {
             return redirect()->route('login.form');
         }
 
         try {
-            $userResponse = $client->get('http://localhost:4000/auth/me', [
+            $userResponse = $client->get("{$baseUrl}/auth/me", [
                 'headers' => [
                     'Authorization' => "Bearer {$token}",
                 ],
@@ -44,10 +45,10 @@ class resetPassword extends Controller
 
     public function requestResetPass(Request $request)
     {
-         
+        $baseUrl = config('api.url');
         try {
             $client = new Client();
-            $response = $client->post('http://localhost:4000/auth/requestResetPassword', [
+            $response = $client->post("{$baseUrl}/auth/requestResetPassword", [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
@@ -68,14 +69,14 @@ class resetPassword extends Controller
     public function resetPassword(Request $request)
     {
         $token = session('token');
-        
+        $baseUrl = config('api.url');
         if (!$token) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
          
         try {
             $client = new Client();
-            $response = $client->post('http://localhost:4000/auth/resetPasword', [
+            $response = $client->post("{$baseUrl}/auth/resetPasword", [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
