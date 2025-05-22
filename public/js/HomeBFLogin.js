@@ -1,8 +1,7 @@
-
 document.addEventListener("DOMContentLoaded", function () {
     const navbar = document.getElementById("navbar");
-
-    loadTasks();
+    const data = window.apiData;
+    loadTasks(data.perusahaan.data);
     window.onscroll = function () {
         scrollFunction(navbar);
     };
@@ -27,23 +26,26 @@ function scrollFunction(navbar) {
     }
 }
 
-function loadTasks() {
+function loadTasks(data) {
     const slidesContainer = document.getElementById("slides-container");
-    $.getJSON("../data/daftarPabrik.json", function (data) {
-        if (data && Array.isArray(data)) {
-            data.forEach((company) => {
-                const slide = createdTask(company);
-                slidesContainer.appendChild(slide);
-            });
-            data.forEach((company) => {
-                const slide = createdTask(company);
-                slidesContainer.appendChild(slide);
-            });
-        } else {
-            alert("No tasks found in the JSON file.");
-        }
-    }).fail(function () {
-        alert("Failed to load the tasks. Please check the file path.");
+    const errorMessage = document.getElementById("error-message");
+
+    slidesContainer.innerHTML = ""; // bersihkan container dulu
+    errorMessage.style.display = "none"; // sembunyikan pesan dulu
+
+    if (!data || data.length === 0) {
+        errorMessage.style.display = "block";
+        return;
+    }
+
+    data.forEach((company) => {
+        const slide = createdTask(company);
+        slidesContainer.appendChild(slide);
+    });
+
+    data.forEach((company) => {
+        const slide = createdTask(company);
+        slidesContainer.appendChild(slide);
     });
 }
 
@@ -55,17 +57,17 @@ function createdTask(company) {
     slide.style.width = "294px";
 
     const img = document.createElement("img");
-    img.src = company.img;
-    img.alt = company.namaPerusahaan;
+    img.src = company.profile_pict || "https://via.placeholder.com/150";
+    img.alt = company.nama_perusahaan;
 
     const companyInfo = document.createElement("div");
     companyInfo.classList.add("company-info");
 
     const companyName = document.createElement("h2");
-    companyName.textContent = company.namaPerusahaan;
+    companyName.textContent = company.nama_perusahaan;
 
     const jobCount = document.createElement("p");
-    jobCount.textContent = `Jumlah Pekerjaan: ${company.jumlahPekerjaan}`;
+    jobCount.textContent = `Jumlah Lowongan: ${company.jumlah_posting || 0}`;
 
     companyInfo.appendChild(companyName);
     companyInfo.appendChild(jobCount);

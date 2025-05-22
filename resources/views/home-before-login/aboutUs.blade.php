@@ -123,6 +123,9 @@
         </div>
         <p id="error-message" style="display: none;  text-align: center;">Not Found</p>
     </div>
+    <div id="card-container" class="card-container"></div>
+    <div id="error-message" style="display:none; color:red;"></div>
+
 
     <!-- footer start -->
     <footer class="footer">
@@ -150,6 +153,11 @@
     </footer>
     <!-- foooter end -->
 
+    <script>
+        window.apiData = {
+            perusahaan: @json($dataPerusahaan),
+        };
+    </script>
     <script src="{{ asset('js/aboutUs.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>

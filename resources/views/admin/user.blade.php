@@ -55,6 +55,8 @@
     </div>
     <div class="container-utama">
         <h1>Daftar Admin</h1>
+        {{-- Table Admin --}}
+        <button class="tambahAdminBTN" id="tambahBtn">Tambah Admin</button>
         <table id="AdminTable">
             <thead>
                 <tr>
@@ -66,10 +68,14 @@
             </thead>
             <tbody></tbody>
         </table>
-        <button class="tambahAdminBTN" id="tambahBtn">Tambah Admin</button>
+        <div id="adminPagination" class="pagination-container"></div>
+
+
         <div class="margin"></div>
         <h1>Daftar Pelamar</h1>
-        <table id="pelamarTable">
+
+        {{-- Table pelamar --}}
+        <table id="pelamarTable" class="pagination-container">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -80,9 +86,12 @@
             </thead>
             <tbody></tbody>
         </table>
+        <div id="pelamarPagination" class="pagination-container"></div>
         <div class="margin"></div>
+
         <h1>Daftar Perusahaan</h1>
-        <table id="PerusahaanTable">
+        {{-- Table perusahaan --}}
+        <table id="PerusahaanTable" class="pagination-container">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -93,7 +102,10 @@
             </thead>
             <tbody></tbody>
         </table>
+        <div id="perusahaanPagination" class="pagination-container"></div>
+
     </div>
+
     <div class="marginDua"></div>
 
     <div id="modal" class="modal">
@@ -103,27 +115,28 @@
             <br>
             <form id="userForm">
                 <label for="first_name">First Name:</label><br>
-                <input type="text" id="first_name" name="first_name" >
+                <input type="text" id="first_name" name="first_name">
                 <br><br>
-    
+
                 <label for="last_name">Last Name:</label><br>
-                <input type="text" id="last_name" name="last_name" >
+                <input type="text" id="last_name" name="last_name">
                 <br><br>
-    
+
                 <label for="email">Email:</label><br>
-                <input type="email" id="email" name="email" >
+                <input type="email" id="email" name="email">
                 <br><br>
-    
+
                 <label for="password">Password:</label><br>
-                <input type="password" id="password" name="password" >
+                <input type="password" id="password" name="password">
                 <br><br>
-    
+
                 <label for="confirm_password">Konfirmasi Password:</label><br>
-                <input type="password" id="confirm_password" name="confirm_password" >
-                <p id="passwordError" style="color: red; display: none;">Password dan konfirmasi password tidak sesuai</p>
+                <input type="password" id="confirm_password" name="confirm_password">
+                <p id="passwordError" style="color: red; display: none;">Password dan konfirmasi password tidak sesuai
+                </p>
 
                 <br><br>
-    
+
                 <button type="submit">Simpan</button>
             </form>
         </div>

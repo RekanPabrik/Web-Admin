@@ -75,12 +75,12 @@
             </div>
         </form>
         <hr class="hr" />
-        <div class="loginWithGoogle">
+        {{-- <div class="loginWithGoogle">
             <button class="google-btn">
                 <span class="flat-color-icons--google"></span>
                 <span class="btn-text">Google</span>
             </button>
-        </div>
+        </div> --}}
         <a href="/createAccountPelamar" class="createAccount-txt">create
             account</a>
         <div class="ContainerTermsTxt">

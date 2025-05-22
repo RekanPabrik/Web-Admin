@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\pengaduanController;
 use App\Http\Controllers\admin\profileAdminController;
 use App\Http\Controllers\admin\userReportController;
 use App\Http\Controllers\AuthUserController;
+use App\Http\Controllers\perusahaanController;
 use App\Http\Controllers\resetPassword;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/', function () {
+Route::get('/', [perusahaanController::class, 'mainDataPerusahaanBFLogin'], function () {
     return view('home-before-login/HomeBFLogin');
 })->name('HomeBFLogin');
 
@@ -29,7 +30,7 @@ Route::get('/contactUS', function () {
 })->name('contactUs');
 Route::post('/addPengaduan', [pengaduanController::class, 'addPengaduan'])->name('pengaduan');
 
-Route::get('/aboutUS', function () {
+Route::get('/aboutUS', [perusahaanController::class, 'mainDataPerusahaan'], function () {
     return view('home-before-login/aboutUs');
 })->name('aboutUs');
 
@@ -53,7 +54,6 @@ Route::get('/loginPage', function () {
 Route::post('/login', [AuthUserController::class, 'login'])->name('login.process');
 Route::post('/logout', [AuthUserController::class, 'logout'])->name('logout');
 
-
 Route::post('/reqResetPass', [resetPassword::class, 'requestResetPass'])->name('requestResetPass');
 Route::get('/resetPassword/{token}', [resetPassword::class, 'showResetPasswordForm'])->name('resetPassword');
 Route::post('/resetPassword/{token}', [resetPassword::class, 'resetPassword'])->name('reset.password');
@@ -75,16 +75,15 @@ Route::middleware(['checkLogin'])->group(function () {
         return view('admin/pengaduan');
     })->name('admin.pengaduan');
     Route::delete('/admin/deleteLaporan', [pengaduanController::class, 'deletePengaduan'])->name('admin.deletePengaduan');
-    
-    Route::get('/admin/laporan', [laporanController::class, 'mainDataLaporan'],function () {
+
+    Route::get('/admin/laporan', [laporanController::class, 'mainDataLaporan'], function () {
         return view('admin/laporan');
     })->name('admin.laporan');
 
-    Route::get('/admin/profile', [profileAdminController::class, 'profileAdmin'],function () {
+    Route::get('/admin/profile', [profileAdminController::class, 'profileAdmin'], function () {
         return view('admin/profile');
     })->name('admin.profile');
     Route::post('/admin/updateProfile', [profileAdminController::class, 'updateProfileAdmin'])->name('admin.updateProfile');
-
 
     Route::get('/pelamar/dashboard', [AuthUserController::class, 'home'], function () {
         return view('pelamar/pelamarPage');
