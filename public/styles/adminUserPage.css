@@ -68,7 +68,7 @@
 }
 
 .tambahAdminBTN{
-    margin: 20px 0px 30px 0px;
+    margin: 10px 0px 10px 0px;
     width: 150px;
     height: 30px;
     border-radius: 5px;
@@ -98,6 +98,24 @@
     background-color: rgba(0, 0, 0, 0.5);
     color: black;
 }
+
+.pagination-container {
+    text-align: center;
+    margin-top: 10px;
+}
+.pagination-btn {
+    margin: 0 5px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+.pagination-btn.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
 
 .modal-content {
     background-color: #fff;

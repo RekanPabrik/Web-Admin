@@ -2,7 +2,9 @@ document.addEventListener("DOMContentLoaded", function () {
     window.onscroll = function () {
         scrollFunction();
     };
-    document.querySelector('.btnContainer button').addEventListener('click', requestResetPassword);
+    document
+        .querySelector(".btnContainer button")
+        .addEventListener("click", requestResetPassword);
 });
 
 function scrollFunction() {
@@ -26,62 +28,89 @@ function scrollFunction() {
     }
 }
 
-function requestResetPassword(){
-     const emailInput = document.getElementById('emailResetPass').value;
-     if (emailInput === '') {
-         Swal.fire({
-             icon: 'error',
-             title: 'Error!',
-             text: 'Email tidak boleh kosong!',
-         });
-     } else {
-        fetch("/reqResetPass", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": document.querySelector(
-                    'meta[name="csrf-token"]'
-                ).content,
-            },
-            body: JSON.stringify({email: emailInput}),
-        }).then((response) => {
-            if (!response.ok) {
-                throw new Error("Gagal mengirimkan permintaan.");
-            }
-            return response.json();
-        }).then((data) => {
-            if (data.success) {
-                Swal.fire({
-                    title: "success!",
-                    text: `Silahkan cek email anda`,
-                    icon: "success",
-                    confirmButtonText: "lanjutkan",
-                });
-                countDown();
-            } else {
-                console.log(data.error )
-                Swal.fire({
-                    title: "Error!",
-                    text: data.error || "Gagal mengirimkan permintaan",
-                    icon: "error",
-                    confirmButtonText: "Coba Lagi",
-                });
-            }
-        })
-        .catch((error) => {
-            console.error("Error ketika mengirimkan permintaan:", error);
-            Swal.fire({
-                title: "Error!",
-                text: "Terjadi kesalahan saat mengirimkan permintaan",
-                icon: "error",
-                confirmButtonText: "Coba Lagi",
-            });
+function requestResetPassword() {
+    const emailInput = document.getElementById("emailResetPass").value;
+    if (emailInput === "") {
+        Swal.fire({
+            icon: "error",
+            title: "Error!",
+            text: "Email tidak boleh kosong!",
         });
-     }
+    } else {
+        Swal.fire({
+            title: "Memproses...",
+            text: "Mohon tunggu sebentar",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+        });
+
+        setTimeout(() => {
+            fetch("/reqResetPass", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document.querySelector(
+                        'meta[name="csrf-token"]'
+                    ).content,
+                },
+                body: JSON.stringify({ email: emailInput }),
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Gagal mengirimkan permintaan.");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    Swal.close();
+
+                    if (data.success) {
+                        if (data.success) {
+                            Swal.fire({
+                                title: "Berhasil!",
+                                icon: "success",
+                                html: `
+            Kami telah mengirimkan link reset password ke email Anda.<br><br>
+            📧 <strong>Silakan periksa kotak masuk (inbox)</strong> dan juga <strong>folder spam/junk</strong> pada email Anda.<br><br>
+            Jika Anda tidak menerima email dalam beberapa menit, coba periksa kembali atau kirim ulang.
+        `,
+                                confirmButtonText: "Saya Mengerti",
+                            });
+                            countDown();
+                        }
+
+                        countDown();
+                    } else {
+                        console.log(data.error);
+                        Swal.fire({
+                            title: "Error!",
+                            text: data.error || "Gagal mengirimkan permintaan",
+                            icon: "error",
+                            confirmButtonText: "Coba Lagi",
+                        });
+                    }
+                })
+                .catch((error) => {
+                    Swal.close();
+                    console.error(
+                        "Error ketika mengirimkan permintaan:",
+                        error
+                    );
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Terjadi kesalahan saat mengirimkan permintaan",
+                        icon: "error",
+                        confirmButtonText: "Coba Lagi",
+                    });
+                });
+        }, 3000); // ⏱️ Delay selama 3 detik
+    }
 }
 
-function countDown(){
-    const button = document.querySelector('.btnContainer button');
+function countDown() {
+    const button = document.querySelector(".btnContainer button");
     button.disabled = true;
 
     let countdown = 60;
@@ -91,9 +120,9 @@ function countDown(){
         button.textContent = `Kirim (${countdown}s)`;
 
         if (countdown <= 0) {
-            clearInterval(timer); 
-            button.disabled = false; 
-            button.textContent = 'Kirim'; 
+            clearInterval(timer);
+            button.disabled = false;
+            button.textContent = "Kirim";
         }
-    }, 1000); 
+    }, 1000);
 }

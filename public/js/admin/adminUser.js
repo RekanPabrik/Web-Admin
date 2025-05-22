@@ -6,135 +6,131 @@ document.addEventListener("DOMContentLoaded", function () {
     addUser()
 });
 
-function loadAdmin(data) {
-    const adminElement = document.querySelector(".stat-number.admin");
-    const tbody = $("#AdminTable tbody");
-    adminElement.textContent = data.jumlahData.jumlahAdmin;
+function paginateData(dataArray, containerSelector, paginationSelector, renderRowCallback, deleteBtnClass, deleteCallback) {
+    const itemsPerPage = 5;
+    const container = $(containerSelector);
+    const pagination = $(paginationSelector);
 
-    tbody.empty();
+    function renderPage(page) {
+        container.empty();
+        const start = (page - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const pageData = dataArray.slice(start, end);
 
-    if (
-        !data.dataUserWebsite.jumlahAdmin.data ||
-        data.dataUserWebsite.jumlahAdmin.data.length === 0
-    ) {
-        tbody.append(
-            `<tr>
-                <td colspan="4" style="text-align: center;">Data Not Found</td>
-            </tr>`
-        );
-    } else {
-        data.dataUserWebsite.jumlahAdmin.data.forEach((admin, index) => {
-            const row = `
-          <tr>
-            <td>${index + 1}</td>
-            <td>${admin.first_name} ${admin.last_name}</td>
-            <td>${admin.email}</td>
-            <td>
-              <button  class="adminDeleteBTN action-btn delete-btn" data-id="${
-                  admin.id_admin
-              }" data-name="${admin.first_name} ${
-                admin.last_name
-            }">Delete</button>
-            </td>
-          </tr>
-        `;
-            tbody.append(row);
-        });
+        if (pageData.length === 0) {
+            container.append(`<tr><td colspan="4" style="text-align: center;">Data Not Found</td></tr>`);
+        } else {
+            pageData.forEach((item, index) => {
+                const row = renderRowCallback(item, index + start);
+                container.append(row);
+            });
+        }
 
-        $(".adminDeleteBTN").on("click", function () {
+        // Event for delete buttons
+        $(deleteBtnClass).off("click").on("click", function () {
             const userId = $(this).data("id");
             const name = $(this).data("name");
-            deleteUserAdmin(userId, name);
+            deleteCallback(userId, name);
         });
     }
+
+    function renderPagination() {
+        pagination.empty();
+        const totalPages = Math.ceil(dataArray.length / itemsPerPage);
+
+        for (let i = 1; i <= totalPages; i++) {
+            const btn = $(`<span class="pagination-btn">${i}</span>`);
+            if (i === 1) btn.addClass("active");
+            btn.on("click", function () {
+                $(".pagination-btn").removeClass("active");
+                $(this).addClass("active");
+                renderPage(i);
+            });
+            pagination.append(btn);
+        }
+    }
+
+    if (dataArray.length > itemsPerPage) {
+        renderPagination();
+    } else {
+        pagination.empty();
+    }
+
+    renderPage(1);
 }
+
+
+function loadAdmin(data) {
+    const adminElement = document.querySelector(".stat-number.admin");
+    adminElement.textContent = data.jumlahData.jumlahAdmin;
+
+    const dataArray = data.dataUserWebsite.jumlahAdmin.data || [];
+    paginateData(
+        dataArray,
+        "#AdminTable tbody",
+        "#adminPagination",
+        (admin, index) => `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${admin.first_name} ${admin.last_name}</td>
+                <td>${admin.email}</td>
+                <td>
+                    <button class="adminDeleteBTN action-btn delete-btn" data-id="${admin.id_admin}" data-name="${admin.first_name} ${admin.last_name}">Delete</button>
+                </td>
+            </tr>`,
+        ".adminDeleteBTN",
+        deleteUserAdmin
+    );
+}
+
 
 function loadPelamar(data) {
     const pelamarElement = document.querySelector(".stat-number.pelamar");
     pelamarElement.innerHTML = data.jumlahData.jumlahPelamar;
-    const tbody = $("#pelamarTable tbody");
-    tbody.empty();
 
-    if (
-        !data.dataUserWebsite.jumlahPelamar.data ||
-        data.dataUserWebsite.jumlahPelamar.data.length === 0
-    ) {
-        tbody.append(
-            `<tr>
-                <td colspan="4" style="text-align: center;">Data Not Found</td>
-            </tr>`
-        );
-    } else {
-        data.dataUserWebsite.jumlahPelamar.data.forEach((pelamar, index) => {
-            const row = `
-                        <tr>
-                            <td>${index + 1}</td>
-                            <td>${pelamar.first_name} ${pelamar.last_name}</td>
-                            <td>${pelamar.email}</td>
-                            <td>
-                                <button class="pelamarDeleteBTN action-btn delete-btn" data-id="${
-                                    pelamar.id_pelamar
-                                }" data-name="${pelamar.first_name} ${
-                pelamar.last_name
-            }">Delete</button>
-                            </td>
-                        </tr>
-                    `;
-
-            tbody.append(row);
-        });
-
-        $(".pelamarDeleteBTN").on("click", function () {
-            const userId = $(this).data("id");
-            const name = $(this).data("name");
-            deleteUserPelamar(userId, name);
-        });
-    }
+    const dataArray = data.dataUserWebsite.jumlahPelamar.data || [];
+    paginateData(
+        dataArray,
+        "#pelamarTable tbody",
+        "#pelamarPagination",
+        (pelamar, index) => `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${pelamar.first_name} ${pelamar.last_name}</td>
+                <td>${pelamar.email}</td>
+                <td>
+                    <button class="pelamarDeleteBTN action-btn delete-btn" data-id="${pelamar.id_pelamar}" data-name="${pelamar.first_name} ${pelamar.last_name}">Delete</button>
+                </td>
+            </tr>`,
+        ".pelamarDeleteBTN",
+        deleteUserPelamar
+    );
 }
+
 
 function loadPerusahaan(data) {
     const Perusahaanelement = document.querySelector(".stat-number.Perusahaan");
-    const tbody = $("#PerusahaanTable tbody");
     Perusahaanelement.innerHTML = data.jumlahData.jumlahPerusahaan;
-    tbody.empty();
 
-    if (
-        !data.dataUserWebsite.jumlahPerusahaan.data ||
-        data.dataUserWebsite.jumlahPerusahaan.data.length === 0
-    ) {
-        tbody.append(
-            `<tr>
-                <td colspan="4" style="text-align: center;">Data Not Found</td>
-            </tr>`
-        );
-    } else {
-        data.dataUserWebsite.jumlahPerusahaan.data.forEach((Perusahaan, index) => {
-            const row = `
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td>${Perusahaan.nama_perusahaan}</td>
-                        <td>${Perusahaan.email}</td>
-                        <td>
-                            
-                            <button class="PerusahaanDeleteBTN action-btn delete-btn" data-id="${
-                                Perusahaan.id_perusahaan
-                            }" data-name="${
-                Perusahaan.nama_perusahaan
-            } ">Delete</button>
-                        </td>
-                    </tr>
-                `;
-
-            tbody.append(row);
-        });
-
-        $(".PerusahaanDeleteBTN").on("click", function () {
-            const userId = $(this).data("id");
-            const name = $(this).data("name");
-            deleteUserPerusahaan(userId, name);
-        });
-    }
+    const dataArray = data.dataUserWebsite.jumlahPerusahaan.data || [];
+    paginateData(
+        dataArray,
+        "#PerusahaanTable tbody",
+        "#perusahaanPagination",
+        (perusahaan, index) => `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${perusahaan.nama_perusahaan}</td>
+                <td>${perusahaan.email}</td>
+                <td>
+                    <button class="PerusahaanDeleteBTN action-btn delete-btn" data-id="${perusahaan.id_perusahaan}" data-name="${perusahaan.nama_perusahaan}">Delete</button>
+                </td>
+            </tr>`,
+        ".PerusahaanDeleteBTN",
+        deleteUserPerusahaan
+    );
 }
+
 
 function deleteUserAdmin(userId, name) {
     const dataID = { id_admin: userId };

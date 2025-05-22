@@ -71,7 +71,11 @@
             <div class="slider">
                 <div class="slides" id="slides-container"></div>
             </div>
+            
         </div>
+        <p id="error-message" style="text-align: center; color: red; display: none;">
+            Data perusahaan tidak tersedia.
+        </p>
         <!-- SLIDER end -->
     </section>
     <!-- container satu end -->
@@ -143,7 +147,11 @@
         </div>
     </footer>
     <!-- foooter end -->
-
+    <script>
+        window.apiData = {
+            perusahaan: @json($dataPerusahaan),
+        };
+    </script>
     <script src="{{ asset('js/HomeBFLogin.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
